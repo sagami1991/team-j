@@ -1,5 +1,5 @@
 require("./main.scss");
-import Handlebars = require("handlebars");
+import * as Handlebars from "handlebars";
 
 interface Member {
 	name: string;
@@ -10,20 +10,21 @@ interface Seikabutu {
 	name: string;
 	info: string;
 	image: string;
+	url: string;
 }
 
 class MainComponent {
 	private el: Element;
 	private abouts: string[] = [
 		"なんでも実況Ｊから集結されたプログラマー集団",
-		"グレーな仕事も軽々とこなす"
+		"グレーな案件、ハードな仕事など、どんな依頼も引き受け軽々とこなす"
 	]
 	private goals: string[] = [
 		"知名度を上げるアプリの作成",
 		"ネット上でプロフェッショナル集団として認知される",
 		"依頼された仕事をこなせるようになる"
 	]
-	private members:Member[] = [
+	private members: Member[] = [
 		{
 			name:"yasuaki（リーダー）",
 			image: "yasuaki.png"
@@ -33,6 +34,15 @@ class MainComponent {
 		}, {
 			name:"やまだ",
 			image: "user.png"
+		}
+	]
+
+	private seikabutus: Seikabutu[] = [
+		{
+			name: "なんJワーククラウド",
+			info: "なんでも実況Jで今人気のワードを視野的に表示するwebアプリ",
+			image: "word_crowd.png",
+			url: "http://jcloud.wktk.so/"
 		}
 	]
 
@@ -47,7 +57,8 @@ class MainComponent {
 		this.el.innerHTML = Handlebars.compile(require("./app.html"))({
 			abouts: this.abouts,
 			goals: this.goals,
-			members: this.members
+			members: this.members,
+			seikabutus: this.seikabutus
 		});
 		
 	}

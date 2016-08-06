@@ -2,12 +2,12 @@
 <div class="top-panel">
 	<div class="logo"></div>
 	<h1>Team J</h1>
-	<h2>this is professional programing team by <b>nandemo jikyo J</b></h1>
+	<h2 style="text-align: center;">this is professional <span class="nowrap">programing team</span> <span class="nowrap">by <b>nandemo jikyo J</b></span></h1>
 </div>
 <div class="content">
 	<div class="section">
 		<h2 class="h2">
-			About is "Team J"
+			<i class="material-icons">info</i>About is "Team J"
 		</h2>
 		<div class="section-body">
 			<ul>
@@ -19,7 +19,7 @@
 	</div>
 	<div class="section">
 		<h2 class="h2">
-			目標
+			<i class="material-icons">navigation</i>目標
 		</h2>
 		<div class="section-body">
 			{{#goals}}
@@ -32,7 +32,7 @@
 	</div>
 	<div class="section">
 		<h2 class="h2">
-			Members
+			<i class="material-icons">group</i>Members
 		</h2>
 		<div class="section-body">
 			{{#members}}
@@ -47,7 +47,7 @@
 	</div>
 	<div class="section">
 		<h2 class="h2">
-			Tasks
+			<i class="material-icons">assignment</i>Tasks
 		</h2>
 		<div class="section-body">
 			<ul>
@@ -58,27 +58,29 @@
 	</div>
 	<div class="section">
 		<h2 class="h2">
-			成果物
+			<i class="material-icons">description</i>成果物
 		</h2>
 		<div class="section-body">
-			<a href="http://jcloud.wktk.so/" target="_blank">
+			{{#seikabutus}}
+			<a href="{{url}}" target="_blank">
 				<div class="image-card">
-					<img src="./assets/word_crowd.png" class="image-card-img" width="300px" />
+					<img src="./assets/{{image}}" class="image-card-img" width="300px" />
 					<div class="image-card-info">
 						<div class="image-card-info-title">
-							なんJワーククラウド
+							{{name}}
 						</div>
 						<div class="image-card-info-info">
-							なんでも実況Jで今人気のワードを視野的に表示するwebアプリ
+							{{info}}
 						</div>
 					</div>
 				</div>
 			</a>
+			{{/seikabutus}}
 		</div>
 	</div>
 	<div class="section">
 		<h2 class="h2">
-			メンバー用
+			<i class="material-icons">group_work</i>メンバー用
 		</h2>
 		<div class="section-body">
 			<ul>
