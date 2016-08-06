@@ -5,6 +5,8 @@ body, h1, h2, h3, p {
 body {
 	margin: 0;
 	font-family: 'Roboto', "Yu Gothic", "游ゴシック", 'Meiryo UI','メイリオ';
+	background-color: #f9f9f9;
+	color: #5f5f5f;
 }
 
 h1, h2 {
@@ -18,11 +20,30 @@ a {
 ul, dl {
 	margin: 0 0 10px 0;
 }
-li {
-	margin-bottom: 6px;
+ul {
+	-webkit-padding-start: 20px;
+	li {
+		margin-bottom: 6px;
+	}
 }
 
+dd {
+	-webkit-margin-start: 20px;
+}
+
+.nowrap {
+	white-space: nowrap;
+}
 .h2 {
+	font-weight: 400;
+	margin-bottom: 12px;
+	font-size: 1.8em;
+	align-items: center;
+	display: flex;
+}
+
+.list-title {
+	font-size: 18px;
 	font-weight: 400;
 }
 .top-panel {
@@ -51,10 +72,10 @@ li {
 	border-bottom: 1px solid rgb(232, 232, 232);
 }
 .section-body {
-	padding: 6px 0 0 10px;
+	padding: 0 0 0 30px;
 }
 .member-header {
-	padding: 6px;
+	margin-bottom: 6px;
 	display: flex;
 	align-items: center;
 	.avatar {
@@ -99,4 +120,11 @@ li {
 			overflow: hidden;
 		}
 	}
+}
+
+
+.material-icons {
+	margin-right: 6px;
+	font-size: inherit;
+	color: #757575;
 }
