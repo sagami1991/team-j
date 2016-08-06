@@ -1,4 +1,3 @@
-<div id="app-bar"></div>
 <div class="top-panel">
 	<div class="logo"></div>
 	<h1>Team J</h1>
@@ -12,7 +11,7 @@
 		<div class="section-body">
 			<ul>
 				{{#abouts}}
-				<li>{{.}}</li>
+					<li>{{.}}</li>
 				{{/abouts}}
 			</ul>
 		</div>
@@ -23,10 +22,10 @@
 		</h2>
 		<div class="section-body">
 			{{#goals}}
-			<dl>
-				<dt class="list-title">Phase.{{addOne @index}}</dt>
-				<dd>{{.}}</dd>
-			</dl>
+				<dl>
+					<dt class="list-title">Phase.{{addOne @index}}</dt>
+					<dd>{{.}}</dd>
+				</dl>
 			{{/goals}}
 		</div>
 	</div>
@@ -62,19 +61,15 @@
 		</h2>
 		<div class="section-body">
 			{{#seikabutus}}
-			<a href="{{url}}" target="_blank">
-				<div class="image-card">
-					<img src="./assets/{{image}}" class="image-card-img" width="300px" />
-					<div class="image-card-info">
-						<div class="image-card-info-title">
-							{{name}}
-						</div>
-						<div class="image-card-info-info">
-							{{info}}
+				<a href="{{url}}" target="_blank">
+					<div class="image-card">
+						<img src="./assets/{{image}}" class="image-card-img" width="300px" />
+						<div class="image-card-info">
+							<div class="image-card-info-title">{{name}}</div>
+							<div class="image-card-info-info">{{info}}</div>
 						</div>
 					</div>
-				</div>
-			</a>
+				</a>
 			{{/seikabutus}}
 		</div>
 	</div>
