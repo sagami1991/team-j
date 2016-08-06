@@ -10,6 +10,12 @@ body {
 h1, h2 {
 	font-weight: 300;
 }
+a {
+    color: #2156a5;
+    text-decoration: underline;
+    line-height: inherit;
+}
+
 .h2 {
 	font-weight: 400;
 }
@@ -38,7 +44,7 @@ ul {
 	margin: 20px auto 0 auto;
 }
 .section{
-	padding-top: 10px;
+	padding: 10px 0 8px 0;
 	border-bottom: 1px solid rgb(232, 232, 232);
 }
 .section-body {
