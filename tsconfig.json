@@ -6,7 +6,7 @@
         "sourceMap": true,
 		"types": [
 			"node",
-			"mustache"
+			"handlebars"
 		]
     },
 	"files": [
