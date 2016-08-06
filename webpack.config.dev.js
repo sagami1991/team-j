@@ -10,7 +10,10 @@ module.exports = {
   },
 //   devtool: "source-map",
   resolve: {
-    extensions: ["", ".ts", ".js"]
+    extensions: ["", ".ts", ".js"],
+	alias: {
+       handlebars: 'handlebars/dist/handlebars.min.js'
+    }
   },
 
   module: {
@@ -19,6 +22,7 @@ module.exports = {
 		{ test: /\.html$/, loader: 'raw'},
 		{ test: /\.scss$/, loaders: ['style', 'css', 'sass'] },
 		{ test: /\.png$/, loader: "url?limit=10000&mimetype=image/png" },
+		{ test: /\.jpg$/, loader: "url?limit=10000&mimetype=image/jpeg" },
     ]
   },
   	plugins: [
