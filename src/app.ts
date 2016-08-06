@@ -1,4 +1,5 @@
 require("./main.scss");
+/** templateエンジン */
 import * as Handlebars from "handlebars";
 
 interface Member {
@@ -46,7 +47,6 @@ class MainComponent {
 			url: "http://jcloud.wktk.so/"
 		}
 	]
-
 
 	public init() {
 		this.el = document.querySelector("my-app");
