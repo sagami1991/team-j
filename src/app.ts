@@ -1,6 +1,7 @@
 require("./main.scss");
 /** templateエンジン */
 import * as Handlebars from "handlebars";
+declare var LAST_UPDATED: string;
 
 interface Member {
 	name: string;
@@ -59,7 +60,8 @@ class MainComponent {
 			abouts: this.abouts,
 			goals: this.goals,
 			members: this.members,
-			seikabutus: this.seikabutus
+			seikabutus: this.seikabutus,
+			lastUpdated: LAST_UPDATED
 		});
 		
 	}

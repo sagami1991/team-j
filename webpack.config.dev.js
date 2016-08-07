@@ -1,6 +1,7 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const webpack = require("webpack");
 const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
+const DefinePlugin = require('webpack/lib/DefinePlugin');
+const dateFormat = require('dateformat');
 
 module.exports = {
   entry: ["./src/app.ts"],
@@ -37,5 +38,8 @@ module.exports = {
 			{ from: 'src/favicon.ico', to: 'favicon.ico' },
 			{ from: 'src/assets', to: 'assets' },
 		]),
+		new DefinePlugin({
+			LAST_UPDATED: `"${dateFormat(new Date(),"yyyy/mm/dd HH:MM")}"`
+		}),
 	],
 };
