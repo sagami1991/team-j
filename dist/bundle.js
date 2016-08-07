@@ -673,8 +673,8 @@
 	        this._y = y;
 	        this.targetX = targetX;
 	        this.targetY = targetY;
-	        this.dx = (targetX - x) / 500;
-	        this.dy = (targetY - y) / 500;
+	        this.dx = (targetX - x) / 400;
+	        this.dy = (targetY - y) / 400;
 	        this._stateType = MissileState.normal;
 	        this._image = GozzilaCanvas.imageMap.missile;
 	        this.hp = 40;
