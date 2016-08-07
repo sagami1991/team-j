@@ -560,7 +560,7 @@
 	    };
 	    /** ミサイルを出現させる（ゴジラ領域を除く） */
 	    GozzilaCanvas.prototype.spawnMissile = function (e) {
-	        if (e.clientX > 300 || e.clientY < GozzilaCanvas.canvasHeight - 300) {
+	        if (e.clientX > 240 || e.clientY < GozzilaCanvas.canvasHeight - 240) {
 	            this.missiles.push(new Missile(e.clientX, e.clientY, 0, GozzilaCanvas.canvasHeight));
 	        }
 	    };
