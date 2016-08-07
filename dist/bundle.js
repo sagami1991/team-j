@@ -513,6 +513,11 @@
 	    GozzilaCanvas.prototype.init = function () {
 	        var _this = this;
 	        this.canvasElm = document.querySelector("#canvas");
+	        if (window.location.href.indexOf("godzilla") !== -1) {
+	            this.canvasElm.style.zIndex = "1";
+	            this.canvasElm.style.opacity = "1";
+	            document.querySelector("my-app").style.display = "none";
+	        }
 	        this.ctx = this.canvasElm.getContext('2d');
 	        GozzilaCanvas.canvasWidth = window.innerWidth;
 	        GozzilaCanvas.canvasHeight = window.innerHeight;
