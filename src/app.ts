@@ -1,6 +1,10 @@
 require("./main.scss");
 /** templateエンジン */
 import * as Handlebars from "handlebars";
+import {GozzilaCanvas} from "./canvas";
+import 'core-js/es6/array';
+import 'core-js/es6/promise';
+// 更新日、webpackビルド時に付与される
 declare var LAST_UPDATED: string;
 
 interface Member {
@@ -17,16 +21,20 @@ interface Seikabutu {
 
 class MainComponent {
 	private el: Element;
+	private canvas: GozzilaCanvas;
+
 	private abouts: string[] = [
 		"なんでも実況Ｊから集結されたプログラマー集団",
 		"グレーな案件、ハードな仕事など、どんな依頼も引き受け軽々とこなす"
 	]
+
 	private goals: string[] = [
 		"知名度を上げるアプリの作成",
 		"天才プログラマー〝tehu〟を超える",
 		"ネット上でプロフェッショナル集団として認知される",
 		"依頼された仕事をこなせるようになる"
 	]
+
 	private members: Member[] = [
 		{
 			name:"yasuaki（リーダー）",
@@ -49,8 +57,14 @@ class MainComponent {
 		}
 	]
 
+	constructor(canvas: GozzilaCanvas) {
+		this.canvas = canvas;
+	}
+
 	public init() {
 		this.el = document.querySelector("my-app");
+		this.canvas.init();
+		// templateエンジンに関数を登録
 		Handlebars.registerHelper("addOne",  (index: number) => index + 1);
 		this.render();
 	}
@@ -67,4 +81,4 @@ class MainComponent {
 	}
 }
 
-new MainComponent().init();
+new MainComponent(new GozzilaCanvas()).init();

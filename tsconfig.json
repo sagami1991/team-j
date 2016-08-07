@@ -6,7 +6,8 @@
         "sourceMap": true,
 		"types": [
 			"node",
-			"handlebars"
+			"handlebars",
+			"core-js"
 		]
     },
 	"files": [

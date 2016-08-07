@@ -9,6 +9,10 @@ body {
 	color: #5f5f5f;
 }
 
+my-app {
+	opacity: 0.8;
+}
+
 h1, h2 {
 	font-weight: 300;
 }
@@ -47,7 +51,7 @@ dd {
 	font-weight: 400;
 }
 .top-panel {
-	background-color: #00bcd4;
+	background-color: rgba(0, 188, 212, 0.8);
 	color: rgba(255, 255, 255, 0.870588);
 	display: flex;
 	align-items: center;
@@ -127,9 +131,19 @@ dd {
 	}
 }
 
-
+/** google material icon */
 .material-icons {
 	margin-right: 6px;
 	font-size: inherit;
 	color: #757575;
+}
+
+#canvas {
+	position: fixed;
+	opacity: 0.4;
+	z-index: -1;
+	// top:0;
+	right: 0;
+	bottom: 0;
+	left: 0;
 }
