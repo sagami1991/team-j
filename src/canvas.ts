@@ -163,11 +163,14 @@ class Gozzila {
 		const y3 = beginX < toX ? GozzilaCanvas.canvasWidth : 0;
 		const endY = (toY + 18 - beginY) * (y3 - beginX) / (toX - beginX) + beginY;
 		ctx.strokeStyle = "#317cff";
+		ctx.shadowColor = "#317cff";
+		ctx.shadowBlur  = 8;
 		ctx.beginPath();
 		ctx.moveTo(beginX, GozzilaCanvas.canvasHeight - beginY);
 		ctx.lineTo(y3, GozzilaCanvas.convertY(endY));
 		ctx.closePath();
 		ctx.stroke();
+		ctx.shadowBlur  = 0;
 	}
 
 
