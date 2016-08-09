@@ -12,41 +12,41 @@ app.listen(app.get('port'), function() {
 
 const WebSocketServer = require('ws').Server;
 const wss = new WebSocketServer({ port: 8081 });
-// const WSResType = {
-// 	error: 0,
-// 	initlog: 1,
-// 	log: 2
-// };
-// const dateFormat = require('dateformat');
-// let chatLog = [];
-// wss.on('connection', (ws) => {
+const WSResType = {
+	error: 0,
+	initlog: 1,
+	log: 2
+};
+const dateFormat = require('dateformat');
+let chatLog = [];
+wss.on('connection', (ws) => {
 
-// 	ws.send(JSON.stringify({
-// 		type: WSResType.initlog,
-// 		value: chatLog
-// 	}));
-// 	ws.on('message', (data, flags) => {
-// 		if(!flags.binary && data.length > 20){
-// 			ws.send(JSON.stringify({
-// 				type: WSResType.error,
-// 				value: "20文字以上は入力できません"
-// 			}));
-// 		}
-// 		if(chatLog.length >= 10) chatLog.shift();
-// 		const log = {
-// 			msg: data,
-// 			date: dateFormat(new Date(),"m/dd HH:MM")
-// 		};
-// 		chatLog.push(log);
-// 		wss.clients.forEach(ws => {
-// 			ws.send(JSON.stringify({
-// 				type: WSResType.log,
-// 				value: log
-// 			}));
-// 		})
-// 	});
+	ws.send(JSON.stringify({
+		type: WSResType.initlog,
+		value: chatLog
+	}));
+	ws.on('message', (data, flags) => {
+		if(!flags.binary && data.length > 20){
+			ws.send(JSON.stringify({
+				type: WSResType.error,
+				value: "20文字以上は入力できません"
+			}));
+		}
+		if(chatLog.length >= 10) chatLog.shift();
+		const log = {
+			msg: data,
+			date: dateFormat(new Date(),"m/dd HH:MM")
+		};
+		chatLog.push(log);
+		wss.clients.forEach(ws => {
+			ws.send(JSON.stringify({
+				type: WSResType.log,
+				value: log
+			}));
+		})
+	});
 
-// 	ws.on("close", (code) => {
-// 	})
+	ws.on("close", (code) => {
+	})
 
-// });
+});
