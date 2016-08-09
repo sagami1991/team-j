@@ -38,7 +38,7 @@ module.exports = {
 			{ from: 'src/assets', to: 'assets' },
 		]),
 		new DefinePlugin({
-			LAST_UPDATED: `"${dateFormat(new Date(),"yyyy/mm/dd HH:MM")}"`
+			LAST_UPDATED: `"${dateFormat(new Date(),"yyyy/mm/dd HH:MM")}"`,
 		}),
 	],
 };
