@@ -44,7 +44,7 @@ export class WebSocketChat {
 	private sendElem: HTMLElement;
 	private tmpSendMsg: string;
 	public init() {
-		this.ws = new WebSocket(`ws://${window.location.hostname}/`);
+		this.ws = new WebSocket(location.origin.replace(/^http/, 'ws'));
 		this.inputElem = <HTMLTextAreaElement> document.querySelector("#chat");
 		this.logElem = <HTMLElement> document.querySelector(".chat-logs");
 		this.sendElem = <HTMLElement> document.querySelector(".chat-send");
