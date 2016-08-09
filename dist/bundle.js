@@ -768,7 +768,7 @@
 	    }
 	    WebSocketChat.prototype.init = function () {
 	        var _this = this;
-	        this.ws = new WebSocket("ws://" + window.location.hostname + "/");
+	        this.ws = new WebSocket(location.origin.replace(/^http/, 'ws'));
 	        this.inputElem = document.querySelector("#chat");
 	        this.logElem = document.querySelector(".chat-logs");
 	        this.sendElem = document.querySelector(".chat-send");
