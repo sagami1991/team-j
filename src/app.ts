@@ -2,10 +2,24 @@ require("./main.scss");
 /** templateエンジン */
 import * as Handlebars from "handlebars";
 import {GozzilaCanvas} from "./canvas";
+import {WebSocketChat} from "./chat.ts";
 import 'core-js/es6/array';
 import 'core-js/es6/promise';
 // 更新日、webpackビルド時に付与される
 declare var LAST_UPDATED: string;
+
+interface NotificationOptions {
+	dir?: string;
+	lang?: string;
+	body?: string;
+	tag?: string;
+	icon?: string;
+}
+//これ型定義ファイルどこにあるの？
+declare class Notification{
+	constructor(title: string, options?: NotificationOptions);
+	static requestPermission(callback?: (permission: string) => void): void;
+}
 
 interface Member {
 	name: string;
@@ -64,9 +78,9 @@ class MainComponent {
 	public init() {
 		this.el = document.querySelector("my-app");
 		this.canvas.init();
-		// templateエンジンに関数を登録
 		Handlebars.registerHelper("addOne",  (index: number) => index + 1);
 		this.render();
+		new WebSocketChat().init();
 	}
 
 	private render() {

@@ -56,6 +56,7 @@
 	/** templateエンジン */
 	var Handlebars = __webpack_require__(7);
 	var canvas_1 = __webpack_require__(8);
+	var chat_ts_1 = __webpack_require__(104);
 	__webpack_require__(9);
 	__webpack_require__(92);
 	var MainComponent = (function () {
@@ -95,9 +96,9 @@
 	    MainComponent.prototype.init = function () {
 	        this.el = document.querySelector("my-app");
 	        this.canvas.init();
-	        // templateエンジンに関数を登録
 	        Handlebars.registerHelper("addOne", function (index) { return index + 1; });
 	        this.render();
+	        new chat_ts_1.WebSocketChat().init();
 	    };
 	    MainComponent.prototype.render = function () {
 	        this.el.innerHTML = Handlebars.compile(__webpack_require__(103))({
@@ -105,7 +106,7 @@
 	            goals: this.goals,
 	            members: this.members,
 	            seikabutus: this.seikabutus,
-	            lastUpdated: ("2016/08/07 22:18")
+	            lastUpdated: ("2016/08/09 22:40")
 	        });
 	    };
 	    return MainComponent;
@@ -148,7 +149,7 @@
 
 
 	// module
-	exports.push([module.id, "@charset \"UTF-8\";\nbody, h1, h2, h3, p {\n  margin: 0; }\n\nbody {\n  margin: 0;\n  font-family: 'Roboto', \"Yu Gothic\", \"\\6E38\\30B4\\30B7\\30C3\\30AF\", 'Meiryo UI','\\30E1\\30A4\\30EA\\30AA';\n  background-color: #f9f9f9;\n  color: #5f5f5f; }\n\nmy-app {\n  opacity: 0.8; }\n\nh1, h2 {\n  font-weight: 300; }\n\na {\n  color: #2156a5;\n  text-decoration: underline;\n  line-height: inherit; }\n\nul, dl {\n  margin: 0 0 10px 0; }\n\nul {\n  -webkit-padding-start: 20px; }\n  ul li {\n    margin-bottom: 6px; }\n\ndd {\n  -webkit-margin-start: 20px; }\n\n.nowrap {\n  white-space: nowrap; }\n\n.h2 {\n  font-weight: 400;\n  margin-bottom: 12px;\n  font-size: 1.8em;\n  align-items: center;\n  display: flex; }\n\n.list-title {\n  font-size: 18px;\n  font-weight: 400; }\n\n.top-panel {\n  background-color: rgba(0, 188, 212, 0.8);\n  color: rgba(255, 255, 255, 0.870588);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-direction: column;\n  padding: 0 30px 30px 30px;\n  box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px; }\n\n.footer {\n  background-color: #212121;\n  padding: 30px;\n  color: rgba(255, 255, 255, 0.541176); }\n\n.logo {\n  background-image: url(" + __webpack_require__(5) + ");\n  width: 300px;\n  height: 290px; }\n\n.content {\n  padding: 0 20px;\n  max-width: 900px;\n  margin: 20px auto; }\n\n.section {\n  padding: 10px 0 12px 0;\n  border-bottom: 1px solid #e8e8e8; }\n\n.section-body {\n  padding: 0 0 0 30px; }\n\n.member-header {\n  margin-bottom: 6px;\n  display: flex;\n  align-items: center; }\n  .member-header .avatar {\n    width: 30px;\n    height: 30px;\n    border-radius: 50%;\n    margin-right: 10px;\n    background-color: #bcbcbc; }\n\n.member-content {\n  padding: 6px;\n  margin-left: 10px; }\n\n.image-card {\n  position: relative;\n  width: 300px;\n  height: 240px;\n  overflow: hidden; }\n  .image-card .image-card-info {\n    position: absolute;\n    left: 0px;\n    right: 0px;\n    bottom: 0px;\n    height: 68px;\n    background: rgba(0, 0, 0, 0.4);\n    color: white;\n    padding: 10px 16px 0 16px;\n    display: flex;\n    flex-direction: column;\n    justify-content: center; }\n    .image-card .image-card-info .image-card-info-title {\n      font-size: 16px;\n      text-overflow: ellipsis;\n      overflow: hidden;\n      white-space: nowrap; }\n    .image-card .image-card-info .image-card-info-info {\n      font-size: 12px;\n      text-overflow: ellipsis;\n      overflow: hidden; }\n\n/** google material icon */\n.material-icons {\n  margin-right: 6px;\n  font-size: inherit;\n  color: #757575; }\n\n#canvas {\n  position: fixed;\n  opacity: 0.25;\n  z-index: -1;\n  right: 0;\n  bottom: 0;\n  left: 0; }\n", ""]);
+	exports.push([module.id, "@charset \"UTF-8\";\nbody, h1, h2, h3, p {\n  margin: 0; }\n\nbody, textarea {\n  font-family: 'Roboto', \"Yu Gothic\", \"\\6E38\\30B4\\30B7\\30C3\\30AF\", 'Meiryo UI','\\30E1\\30A4\\30EA\\30AA'; }\n\nbody {\n  margin: 0;\n  background-color: #f9f9f9;\n  color: #5f5f5f; }\n\nmy-app {\n  opacity: 0.8; }\n\nh1, h2 {\n  font-weight: 300; }\n\na {\n  color: #2156a5;\n  text-decoration: underline;\n  line-height: inherit; }\n\nul, dl {\n  margin: 0 0 10px 0; }\n\nul {\n  -webkit-padding-start: 20px; }\n  ul li {\n    margin-bottom: 6px; }\n\ndd {\n  -webkit-margin-start: 20px; }\n\n.nowrap {\n  white-space: nowrap; }\n\n.h2 {\n  font-weight: 400;\n  margin-bottom: 12px;\n  font-size: 1.8em;\n  align-items: center;\n  display: flex; }\n  .h2 .material-icons {\n    margin-right: 6px;\n    font-size: inherit; }\n\n.list-title {\n  font-size: 18px;\n  font-weight: 400; }\n\n.top-panel {\n  background-color: rgba(0, 188, 212, 0.8);\n  color: rgba(255, 255, 255, 0.870588);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-direction: column;\n  padding: 0 30px 30px 30px;\n  box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px; }\n\n.footer {\n  background-color: #212121;\n  padding: 30px;\n  color: rgba(255, 255, 255, 0.541176); }\n\n.logo {\n  background-image: url(" + __webpack_require__(5) + ");\n  width: 300px;\n  height: 290px; }\n\n.content {\n  padding: 0 20px;\n  max-width: 900px;\n  margin: 20px auto; }\n\n.section {\n  padding: 10px 0 12px 0;\n  border-bottom: 1px solid #e8e8e8; }\n\n.section-body {\n  padding: 0 0 0 30px; }\n\n.member-header {\n  margin-bottom: 6px;\n  display: flex;\n  align-items: center; }\n  .member-header .avatar {\n    width: 30px;\n    height: 30px;\n    border-radius: 50%;\n    margin-right: 10px;\n    background-color: #bcbcbc; }\n\n.member-content {\n  padding: 6px;\n  margin-left: 10px; }\n\n.image-card {\n  position: relative;\n  width: 300px;\n  height: 240px;\n  overflow: hidden; }\n  .image-card .image-card-info {\n    position: absolute;\n    left: 0px;\n    right: 0px;\n    bottom: 0px;\n    height: 68px;\n    background: rgba(0, 0, 0, 0.4);\n    color: white;\n    padding: 10px 16px 0 16px;\n    display: flex;\n    flex-direction: column;\n    justify-content: center; }\n    .image-card .image-card-info .image-card-info-title {\n      font-size: 16px;\n      text-overflow: ellipsis;\n      overflow: hidden;\n      white-space: nowrap; }\n    .image-card .image-card-info .image-card-info-info {\n      font-size: 12px;\n      text-overflow: ellipsis;\n      overflow: hidden; }\n\n/** google material icon */\n.material-icons {\n  color: #757575; }\n\n#canvas {\n  position: fixed;\n  opacity: 0.25;\n  z-index: -1;\n  right: 0;\n  bottom: 0;\n  left: 0; }\n\n.chat-area {\n  width: 70%; }\n  .chat-area ul.chat-logs {\n    width: 100%;\n    list-style: none; }\n    .chat-area ul.chat-logs li.chat-log .chat-date {\n      color: #aaa;\n      font-size: 12px; }\n\n.chat-input {\n  display: flex;\n  border: 1px solid #E0E0E0;\n  border-radius: 6px;\n  overflow: hidden; }\n  .chat-input:focus {\n    border-color: #bbbdbf; }\n  .chat-input .chat-send {\n    cursor: pointer;\n    width: 44px;\n    font-size: 22px;\n    border: 0;\n    border-left: 1px solid #E0E0E0;\n    color: #888;\n    background-color: #fcfcfc;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    -webkit-user-select: none; }\n    .chat-input .chat-send:hover {\n      background-color: #f1f1f1;\n      color: #666; }\n\n#chat {\n  border: 0;\n  width: 100%;\n  resize: none;\n  padding: .5rem;\n  height: 2rem; }\n  #chat:focus {\n    outline: 0; }\n", ""]);
 
 	// exports
 
@@ -2839,7 +2840,78 @@
 /* 103 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"top-panel\">\r\n\t<div class=\"logo\"></div>\r\n\t<h1>Team J</h1>\r\n\t<h2 style=\"text-align: center;\">\r\n\t\tthis is professional \r\n\t\t<span class=\"nowrap\">programing team</span> \r\n\t\t<span class=\"nowrap\">by <b>Nandemo Jikyo Jupiter</b></span>\r\n\t</h2>\r\n</div>\r\n<div class=\"content\">\r\n\t<div class=\"section\">\r\n\t\t<h2 class=\"h2\">\r\n\t\t\t<i class=\"material-icons\">info</i>About is \"Team J\"\r\n\t\t</h2>\r\n\t\t<div class=\"section-body\">\r\n\t\t\t<ul>\r\n\t\t\t\t{{#abouts}}\r\n\t\t\t\t\t<li>{{.}}</li>\r\n\t\t\t\t{{/abouts}}\r\n\t\t\t</ul>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"section\">\r\n\t\t<h2 class=\"h2\">\r\n\t\t\t<i class=\"material-icons\">navigation</i>目標\r\n\t\t</h2>\r\n\t\t<div class=\"section-body\">\r\n\t\t\t{{#goals}}\r\n\t\t\t\t<dl>\r\n\t\t\t\t\t<dt class=\"list-title\">Phase.{{addOne @index}}</dt>\r\n\t\t\t\t\t<dd>{{.}}</dd>\r\n\t\t\t\t</dl>\r\n\t\t\t{{/goals}}\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"section\">\r\n\t\t<h2 class=\"h2\">\r\n\t\t\t<i class=\"material-icons\">group</i>Members\r\n\t\t</h2>\r\n\t\t<div class=\"section-body\">\r\n\t\t\t{{#members}}\r\n\t\t\t\t<div class=\"member\">\r\n\t\t\t\t\t<div class=\"member-header\">\r\n\t\t\t\t\t\t<img src=\"./assets/{{image}}\" class=\"avatar\" />\r\n\t\t\t\t\t\t<div class=\"member-name\">{{name}}</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t{{/members}}\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"section\">\r\n\t\t<h2 class=\"h2\">\r\n\t\t\t<i class=\"material-icons\">assignment</i>Tasks\r\n\t\t</h2>\r\n\t\t<div class=\"section-body\">\r\n\t\t\t<ul>\r\n\t\t\t\t<li>現代風デザインの2chブラウザの作成</li>\r\n\t\t\t\t<li>プロ野球のデータベースの作成</li>\r\n\t\t\t</ul>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"section\">\r\n\t\t<h2 class=\"h2\">\r\n\t\t\t<i class=\"material-icons\">description</i>成果物\r\n\t\t</h2>\r\n\t\t<div class=\"section-body\">\r\n\t\t\t{{#seikabutus}}\r\n\t\t\t\t<div class=\"image-card\">\r\n\t\t\t\t\t<a href=\"{{url}}\" target=\"_blank\">\r\n\t\t\t\t\t\t<img src=\"./assets/{{image}}\" class=\"image-card-img\" width=\"300px\" />\r\n\t\t\t\t\t\t<div class=\"image-card-info\">\r\n\t\t\t\t\t\t\t<div class=\"image-card-info-title\">{{name}}</div>\r\n\t\t\t\t\t\t\t<div class=\"image-card-info-info\">{{info}}</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</a>\r\n\t\t\t\t</div>\r\n\t\t\t{{/seikabutus}}\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"section\">\r\n\t\t<h2 class=\"h2\">\r\n\t\t\t<i class=\"material-icons\">group_work</i>メンバー用\r\n\t\t</h2>\r\n\t\t<div class=\"section-body\">\r\n\t\t\t<ul>\r\n\t\t\t\t<li><a href=\"http://gist.asciidoctor.org/?fp-nIAEEojSgfCc3tv065Ovr\" target=\"_blank\">連絡用旧チームホームページ（Editで書き込む）</a></li>\r\n\t\t\t</ul>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n<div class=\"footer\">\r\n\t\t<div>Last updated {{lastUpdated}}</div>\r\n\t\t<div>shin-GODZILLA picture provide by harine</div>\r\n</div>"
+	module.exports = "<div class=\"top-panel\">\r\n\t<div class=\"logo\"></div>\r\n\t<h1>Team J</h1>\r\n\t<h2 style=\"text-align: center;\">\r\n\t\tthis is professional \r\n\t\t<span class=\"nowrap\">programing team</span> \r\n\t\t<span class=\"nowrap\">by <b>Nandemo Jikyo Jupiter</b></span>\r\n\t</h2>\r\n</div>\r\n<div class=\"content\">\r\n\t<div class=\"section\">\r\n\t\t<h2 class=\"h2\">\r\n\t\t\t<i class=\"material-icons\">info</i>About is \"Team J\"\r\n\t\t</h2>\r\n\t\t<div class=\"section-body\">\r\n\t\t\t<ul>\r\n\t\t\t\t{{#abouts}}\r\n\t\t\t\t\t<li>{{.}}</li>\r\n\t\t\t\t{{/abouts}}\r\n\t\t\t</ul>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"section\">\r\n\t\t<h2 class=\"h2\">\r\n\t\t\t<i class=\"material-icons\">navigation</i>目標\r\n\t\t</h2>\r\n\t\t<div class=\"section-body\">\r\n\t\t\t{{#goals}}\r\n\t\t\t\t<dl>\r\n\t\t\t\t\t<dt class=\"list-title\">Phase.{{addOne @index}}</dt>\r\n\t\t\t\t\t<dd>{{.}}</dd>\r\n\t\t\t\t</dl>\r\n\t\t\t{{/goals}}\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"section\">\r\n\t\t<h2 class=\"h2\">\r\n\t\t\t<i class=\"material-icons\">group</i>Members\r\n\t\t</h2>\r\n\t\t<div class=\"section-body\">\r\n\t\t\t{{#members}}\r\n\t\t\t\t<div class=\"member\">\r\n\t\t\t\t\t<div class=\"member-header\">\r\n\t\t\t\t\t\t<img src=\"./assets/{{image}}\" class=\"avatar\" />\r\n\t\t\t\t\t\t<div class=\"member-name\">{{name}}</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t{{/members}}\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"section\">\r\n\t\t<h2 class=\"h2\">\r\n\t\t\t<i class=\"material-icons\">assignment</i>Tasks\r\n\t\t</h2>\r\n\t\t<div class=\"section-body\">\r\n\t\t\t<ul>\r\n\t\t\t\t<li>現代風デザインの2chブラウザの作成</li>\r\n\t\t\t\t<li>プロ野球のデータベースの作成</li>\r\n\t\t\t</ul>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"section\">\r\n\t\t<h2 class=\"h2\">\r\n\t\t\t<i class=\"material-icons\">description</i>成果物\r\n\t\t</h2>\r\n\t\t<div class=\"section-body\">\r\n\t\t\t{{#seikabutus}}\r\n\t\t\t\t<div class=\"image-card\">\r\n\t\t\t\t\t<a href=\"{{url}}\" target=\"_blank\">\r\n\t\t\t\t\t\t<img src=\"./assets/{{image}}\" class=\"image-card-img\" width=\"300px\" />\r\n\t\t\t\t\t\t<div class=\"image-card-info\">\r\n\t\t\t\t\t\t\t<div class=\"image-card-info-title\">{{name}}</div>\r\n\t\t\t\t\t\t\t<div class=\"image-card-info-info\">{{info}}</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</a>\r\n\t\t\t\t</div>\r\n\t\t\t{{/seikabutus}}\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"section\">\r\n\t\t<h2 class=\"h2\">\r\n\t\t\t<i class=\"material-icons\">group_work</i>メンバー用\r\n\t\t</h2>\r\n\t\t<div class=\"section-body\">\r\n\t\t\t<ul>\r\n\t\t\t\t<li><a href=\"http://gist.asciidoctor.org/?fp-nIAEEojSgfCc3tv065Ovr\" target=\"_blank\">連絡用旧チームホームページ（Editで書き込む）</a></li>\r\n\t\t\t</ul>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"section\">\r\n\t\t<h2 class=\"h2\">\r\n\t\t\t<i class=\"material-icons\">chat</i>コメント\r\n\t\t</h2>\r\n\t\t<div class=\"section-body\">\r\n\t\t\t<div class=\"chat-area\">\r\n\t\t\t\t<ul class=\"chat-logs\"></ul>\r\n\r\n\t\t\t\t<div class=\"chat-input\">\r\n\t\t\t\t\t<textarea id=\"chat\" maxlength=\"20\"></textarea>\r\n\t\t\t\t\t<div class=\"chat-send\"><i class=\"material-icons\">send</i></div>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n<div class=\"footer\">\r\n\t\t<div>Last updated {{lastUpdated}}</div>\r\n\t\t<div>shin-GODZILLA picture provide by harine</div>\r\n</div>"
+
+/***/ },
+/* 104 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var Handlebars = __webpack_require__(7);
+	var WSResType;
+	(function (WSResType) {
+	    WSResType[WSResType["error"] = 0] = "error";
+	    WSResType[WSResType["initlog"] = 1] = "initlog";
+	    WSResType[WSResType["log"] = 2] = "log";
+	})(WSResType || (WSResType = {}));
+	var WebSocketChat = (function () {
+	    function WebSocketChat() {
+	        this.logs = [];
+	    }
+	    WebSocketChat.prototype.init = function () {
+	        var _this = this;
+	        this.ws = new WebSocket("ws://" + window.location.hostname + ":8081/");
+	        this.inputElem = document.querySelector("#chat");
+	        this.logElem = document.querySelector(".chat-logs");
+	        this.sendElem = document.querySelector(".chat-send");
+	        this.ws.onopen = function () {
+	            _this.sendElem.addEventListener("click", function (e) {
+	                _this.send();
+	            });
+	            _this.inputElem.addEventListener("keypress", function (e) {
+	                if (e.keyCode == 13 && !e.shiftKey) {
+	                    _this.send();
+	                    e.preventDefault();
+	                }
+	            });
+	        };
+	        this.ws.onmessage = function (msgEvent) {
+	            var res = JSON.parse(msgEvent.data);
+	            switch (res.type) {
+	                case WSResType.initlog:
+	                    _this.logs = res.value;
+	                    _this.logElem.innerHTML = WebSocketChat.logsTmpl({ logs: _this.logs });
+	                    break;
+	                case WSResType.log:
+	                    var log_1 = res.value;
+	                    _this.logs.push(log_1);
+	                    if (_this.logs.length > 10)
+	                        _this.logs.shift();
+	                    _this.logElem.innerHTML = WebSocketChat.logsTmpl({ logs: _this.logs });
+	                    if (_this.tmpSendMsg !== log_1.msg) {
+	                        new Notification("", { body: log_1.msg });
+	                    }
+	                    break;
+	                default:
+	                    break;
+	            }
+	        };
+	    };
+	    WebSocketChat.prototype.send = function () {
+	        var value = this.inputElem.value;
+	        if (value) {
+	            this.tmpSendMsg = value;
+	            this.ws.send(value);
+	            this.inputElem.value = "";
+	        }
+	    };
+	    WebSocketChat.prototype.render = function () {
+	    };
+	    WebSocketChat.logsTmpl = Handlebars.compile("\n\t\t{{#logs}}\n\t\t<li class=\"chat-log\">\n\t\t\t<div class=\"chat-date\">{{date}}</div>\n\t\t\t<div class=\"chat-msg\">{{msg}}</div>\n\t\t</li>\n\t\t{{/logs}}\n\t");
+	    return WebSocketChat;
+	}());
+	exports.WebSocketChat = WebSocketChat;
+
 
 /***/ }
 /******/ ]);
