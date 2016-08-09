@@ -1,18 +1,14 @@
 "use strict"
 
+const server = require('http').createServer()
 const express = require('express');
 const app = express();
-app.set('port', process.env.PORT || 3000);
 app.use(express.logger('dev'));
 app.use(express.compress());
 app.use(express.static(__dirname + '/dist'));
-app.listen(app.get('port'), function() {
-  console.log('Server listening on port %s', app.get('port'));
-});
-
 
 const WebSocketServer = require('ws').Server;
-const wss = new WebSocketServer({ port: 8081 });
+const wss = new WebSocketServer({ server: server });
 const WSResType = {
 	error: 0,
 	initlog: 1,
@@ -50,4 +46,9 @@ wss.on('connection', (ws) => {
 	ws.on("close", (code) => {
 	})
 
+});
+
+server.on('request', app);
+server.listen(process.env.PORT || 80, function() {
+  console.log('Server listening on port %s', server.address().port);
 });
