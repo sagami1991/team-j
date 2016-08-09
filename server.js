@@ -1,6 +1,6 @@
 
 const express = require('express');
-var app = express();
+const app = express();
 app.set('port', process.env.PORT || 3000);
 app.use(express.logger('dev'));
 app.use(express.compress());
@@ -10,8 +10,8 @@ app.listen(app.get('port'), function() {
 });
 
 
-// const WebSocketServer = require('ws').Server;
-// const wss = new WebSocketServer({ port: 8081 });
+const WebSocketServer = require('ws').Server;
+const wss = new WebSocketServer({ port: 8081 });
 // const WSResType = {
 // 	error: 0,
 // 	initlog: 1,
