@@ -78,7 +78,7 @@ export class Chat {
 	}
 
 	private validateMsg(data: string, isBinary: boolean, ) {
-		if (!isBinary && data.length > 20) {
+		if (!isBinary && data.length > 80) {
 			throw new Error();
 		}
 		if (isBinary) {
