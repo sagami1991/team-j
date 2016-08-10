@@ -1039,7 +1039,6 @@
 	        this.ws.onopen = function () { return _this.onOpen(); };
 	        this.ws.onmessage = function (msgEvent) { return _this.onReceiveMsg(msgEvent); };
 	        this.ws.onclose = function () { return _this.onClose(); };
-	        this.ws.onerror = function () { return util_1.Notify.error("チャットが切断されました。サーバーが落ちた可能性があります。"); };
 	    };
 	    WebSocketChat.prototype.onClose = function () {
 	        util_1.Notify.error("チャットが切断されました。サーバーが落ちた可能性があります");

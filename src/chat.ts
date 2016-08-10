@@ -41,7 +41,6 @@ export class WebSocketChat {
 		this.ws.onopen = () => this.onOpen();
 		this.ws.onmessage = (msgEvent) => this.onReceiveMsg(msgEvent);
 		this.ws.onclose = () => this.onClose();
-		this.ws.onerror = () => Notify.error("チャットが切断されました。サーバーが落ちた可能性があります。")
 	}
 	private onClose() {
 		Notify.error("チャットが切断されました。サーバーが落ちた可能性があります");
