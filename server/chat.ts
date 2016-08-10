@@ -26,36 +26,24 @@ export class Chat {
 	public init() {
 		this.wss.on('connection', (ws) => {
 			this.sendLog10(ws);
-			this.onJoin(ws);
+			this.sendInfoMsgForAll(ws, "誰かがアクセスしました");
 			ws.on('message', (data, flags) => this.receiveMsg(ws, data, flags));
-			ws.on("close", () => this.onClose(ws));
+			ws.on("close", () => this.sendInfoMsgForAll(ws, "誰かが切断しました"));
 		});
 	}
-
-	private onClose(ws: WSWebSocket) {
-		this.wss.clients.forEach(ws => {
-			// if (myWs !== ws) {
-				ws.send(JSON.stringify({
-					type: WSResType.infolog,
-					value: "誰かが切断しました"
-				}));
-			// }
-		});
-	}
-
-	private onJoin(myWs: WSWebSocket) {
+	private sendInfoMsgForAll(myWs: WSWebSocket, msg: string) {
 		this.wss.clients.forEach(ws => {
 			if (myWs !== ws) {
 				ws.send(JSON.stringify({
 					type: WSResType.infolog,
-					value: "誰かがアクセスしました"
+					value: msg
 				}));
 			}
 		});
 	}
 
 	/**
-	 * DBから10行分のログ送信
+	 * DBから10行分のログ取り出して送信
 	 */
 	private sendLog10(ws: WSWebSocket) {
 		this.collection.find().limit(10).sort({ $natural: -1 })
@@ -63,7 +51,7 @@ export class Chat {
 			if (err) console.log(err);
 			ws.send(JSON.stringify({
 				type: WSResType.initlog,
-				value: arr && arr.length ? arr : []
+				value: arr && arr.length ? arr.reverse() : []
 			}));
 		});
 	}
