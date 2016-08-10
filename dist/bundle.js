@@ -1042,6 +1042,7 @@
 	    };
 	    WebSocketChat.prototype.onClose = function () {
 	        util_1.Notify.error("チャットが切断されました。サーバーが落ちた可能性があります");
+	        this.inputElem.disabled = true;
 	    };
 	    WebSocketChat.prototype.onOpen = function () {
 	        var _this = this;

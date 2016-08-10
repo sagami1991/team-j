@@ -44,6 +44,7 @@ export class WebSocketChat {
 	}
 	private onClose() {
 		Notify.error("チャットが切断されました。サーバーが落ちた可能性があります");
+		this.inputElem.disabled = true;
 	}
 	private onOpen() {
 		this.sendElem.addEventListener("click", e => {
