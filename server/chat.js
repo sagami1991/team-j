@@ -71,6 +71,7 @@ var Chat = (function () {
         if (isBinary) {
             return false;
         }
+        return true;
     };
     return Chat;
 }());
