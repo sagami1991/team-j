@@ -797,6 +797,7 @@
 	                        _this.logs.shift();
 	                    _this.logElem.innerHTML = WebSocketChat.logsTmpl({ logs: _this.logs });
 	                    if (_this.tmpSendMsg !== log_1.msg) {
+	                        Notification.requestPermission();
 	                        new Notification("", { body: log_1.msg });
 	                    }
 	                    break;
