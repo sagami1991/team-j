@@ -106,7 +106,7 @@
 	            goals: this.goals,
 	            members: this.members,
 	            seikabutus: this.seikabutus,
-	            lastUpdated: ("2016/08/10 01:58")
+	            lastUpdated: ("2016/08/11 01:09")
 	        });
 	    };
 	    return MainComponent;
@@ -777,7 +777,7 @@
 	                _this.send();
 	            });
 	            _this.inputElem.addEventListener("keypress", function (e) {
-	                if (e.keyCode == 13 && !e.shiftKey) {
+	                if (e.keyCode === 13 && !e.shiftKey) {
 	                    _this.send();
 	                    e.preventDefault();
 	                }

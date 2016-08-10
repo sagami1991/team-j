@@ -1,7 +1,8 @@
 // 既定の設定とユーザー設定を上書きするには、このファイル内に設定を挿入します
 {
 	"files.exclude": {
-		"dist": true
+		"dist": true,
+		"node_modules": true
 		// "**/*.js": { "when": "$(basename).ts" },
 		// "**/*.css": { "when": "$(basename).scss" }
 	},
