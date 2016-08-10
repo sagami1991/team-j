@@ -59,9 +59,7 @@ export class Chat {
 	 * メッセージ受け取ったら、ＤＢに格納＆全員に送信
 	 */
 	private receiveMsg(ws: WSWebSocket, data: any, flags: {binary: boolean}) {
-		try {
-			this.validateMsg(data, flags.binary);
-		} catch (error) {
+		if (!this.validateMsg(data, flags.binary)) {
 			return;
 		}
 		const log = {
@@ -79,10 +77,10 @@ export class Chat {
 
 	private validateMsg(data: string, isBinary: boolean, ) {
 		if (!isBinary && data.length > 80) {
-			throw new Error();
+			return false;
 		}
 		if (isBinary) {
-			throw new Error();
+			return false;
 		}
 	}
 }

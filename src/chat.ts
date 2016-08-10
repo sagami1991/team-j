@@ -19,6 +19,7 @@ interface WSRes {
 }
 
 export class WebSocketChat {
+	private static URL = location.origin.replace(/^http/, 'ws');
 	private static logsTmpl = Handlebars.compile(`
 		{{#logs}}
 		<li class="chat-log">
@@ -33,18 +34,28 @@ export class WebSocketChat {
 	private inputElem: HTMLTextAreaElement;
 	private sendElem: HTMLElement;
 	private tmpSendMsg: string;
+	private pingTimer: number;
 	public init() {
-		this.ws = new WebSocket(location.origin.replace(/^http/, 'ws'));
+		this.ws = new WebSocket(WebSocketChat.URL);
 		this.inputElem = <HTMLTextAreaElement> document.querySelector("#chat");
 		this.logElem = <HTMLElement> document.querySelector(".chat-logs");
 		this.sendElem = <HTMLElement> document.querySelector(".chat-send");
 		this.ws.onopen = () => this.onOpen();
 		this.ws.onmessage = (msgEvent) => this.onReceiveMsg(msgEvent);
 		this.ws.onclose = () => this.onClose();
+		this.pingInterval();
+	}
+
+	/** herokuは無通信時、55秒で遮断されるため、50秒ごとに無駄な通信を行う */
+	private pingInterval() {
+		this.pingTimer = window.setInterval(() => {
+			this.ws.send( new Uint8Array(1));
+		}, 50000);
 	}
 	private onClose() {
 		Notify.error("チャットが切断されました。サーバーが落ちた可能性があります");
 		this.inputElem.disabled = true;
+		window.clearInterval(this.pingTimer);
 	}
 	private onOpen() {
 		this.sendElem.addEventListener("click", e => {

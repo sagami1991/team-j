@@ -49,10 +49,7 @@ var Chat = (function () {
      * メッセージ受け取ったら、ＤＢに格納＆全員に送信
      */
     Chat.prototype.receiveMsg = function (ws, data, flags) {
-        try {
-            this.validateMsg(data, flags.binary);
-        }
-        catch (error) {
+        if (!this.validateMsg(data, flags.binary)) {
             return;
         }
         var log = {
@@ -69,10 +66,10 @@ var Chat = (function () {
     };
     Chat.prototype.validateMsg = function (data, isBinary) {
         if (!isBinary && data.length > 80) {
-            throw new Error();
+            return false;
         }
         if (isBinary) {
-            throw new Error();
+            return false;
         }
     };
     return Chat;
