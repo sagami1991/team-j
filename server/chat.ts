@@ -16,7 +16,6 @@ interface ChatLog {
 export class Chat {
 	private wss: WebSocketServer;
 	private collection: Collection;
-	private logs: ChatLog[];
 	constructor(wss: WebSocketServer,
 				collection: Collection) {
 		this.wss = wss;
@@ -24,23 +23,30 @@ export class Chat {
 	}
 
 	public init() {
-		this.logs = [];
-		this.collection.find().limit(10).sort({ $natural: -1 }).toArray((err, arr) => {
-			if (arr && arr.length) this.logs = arr;
-		});
-
 		this.wss.on('connection', (ws) => {
-			ws.send(JSON.stringify({
-				type: WSResType.initlog,
-				value: this.logs
-			}));
+			this.sendLog10(<any>ws);
 			ws.on('message', (data, flags) => this.receiveMsg(<any> ws, data, flags));
 			ws.on("close", (code) => {
 			});
-
 		});
 	}
 
+	/**
+	 * DBから10行分のログ送信
+	 */
+	private sendLog10(ws: WebSocket) {
+		this.collection.find().limit(10).sort({ $natural: -1 })
+		.toArray((err, arr) => {
+			if (err) console.log(err);
+			ws.send(JSON.stringify({
+				type: WSResType.initlog,
+				value: arr && arr.length ? arr : []
+			}));
+		});
+	}
+	/**
+	 * メッセージ受け取ったら、ＤＢに格納＆全員に送信
+	 */
 	private receiveMsg(ws: WebSocket, data: any, flags: {binary: boolean}) {
 		try {
 			this.validateMsg(data, flags.binary);

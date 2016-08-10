@@ -72,6 +72,7 @@ export class WebSocketChat {
 				if (this.logs.length > 10) this.logs.shift();
 				this.logElem.innerHTML =  WebSocketChat.logsTmpl({logs: this.logs});
 				if (this.tmpSendMsg !== log.msg) {
+					Notification.requestPermission();
 					new Notification("", {body: log.msg});
 				}
 				break;

@@ -14,21 +14,30 @@ var Chat = (function () {
     }
     Chat.prototype.init = function () {
         var _this = this;
-        this.logs = [];
-        this.collection.find().limit(10).sort({ $natural: -1 }).toArray(function (err, arr) {
-            if (arr && arr.length)
-                _this.logs = arr;
-        });
         this.wss.on('connection', function (ws) {
-            ws.send(JSON.stringify({
-                type: WSResType.initlog,
-                value: _this.logs
-            }));
+            _this.sendLog10(ws);
             ws.on('message', function (data, flags) { return _this.receiveMsg(ws, data, flags); });
             ws.on("close", function (code) {
             });
         });
     };
+    /**
+     * DBから10行分のログ送信
+     */
+    Chat.prototype.sendLog10 = function (ws) {
+        this.collection.find().limit(10).sort({ $natural: -1 })
+            .toArray(function (err, arr) {
+            if (err)
+                console.log(err);
+            ws.send(JSON.stringify({
+                type: WSResType.initlog,
+                value: arr && arr.length ? arr : []
+            }));
+        });
+    };
+    /**
+     * メッセージ受け取ったら、ＤＢに格納＆全員に送信
+     */
     Chat.prototype.receiveMsg = function (ws, data, flags) {
         try {
             this.validateMsg(data, flags.binary);
