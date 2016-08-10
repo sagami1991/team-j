@@ -1,25 +1,15 @@
 import * as Handlebars from "handlebars";
-interface NotificationOptions {
-	dir?: string;
-	lang?: string;
-	body?: string;
-	tag?: string;
-	icon?: string;
-}
-//これ型定義ファイルどこにある？
-declare class Notification {
-	constructor(title: string, options?: NotificationOptions);
-	static requestPermission(callback?: (permission: string) => void): void;
-}
-
+import {Notify} from "./util";
 interface ChatLog {
 	msg: string;
 	date: string;
 }
+//ここらへんサーバー側と共有したい
 enum WSResType {
 	error,
 	initlog,
-	log
+	log,
+	infolog
 }
 
 /** チャットのレス */
@@ -48,41 +38,51 @@ export class WebSocketChat {
 		this.inputElem = <HTMLTextAreaElement> document.querySelector("#chat");
 		this.logElem = <HTMLElement> document.querySelector(".chat-logs");
 		this.sendElem = <HTMLElement> document.querySelector(".chat-send");
-		this.ws.onopen = () => {
-			this.sendElem.addEventListener("click", e => {
-				this.send();
-			});
-			this.inputElem.addEventListener("keypress", (e) => {
-				if (e.keyCode === 13 && !e.shiftKey) {
-					this.send();
-					e.preventDefault();
-				}
-			});
-		};
-		this.ws.onmessage = (msgEvent) => {
-			const res = <WSRes>JSON.parse(msgEvent.data);
-			switch (res.type) {
-			case WSResType.initlog:
-				this.logs = <ChatLog[]> res.value;
-				this.logElem.innerHTML =  WebSocketChat.logsTmpl({logs: this.logs});
-				break;
-			case WSResType.log:
-				const log = <ChatLog>res.value;
-				this.logs.push(log);
-				if (this.logs.length > 10) this.logs.shift();
-				this.logElem.innerHTML =  WebSocketChat.logsTmpl({logs: this.logs});
-				if (this.tmpSendMsg !== log.msg) {
-					Notification.requestPermission();
-					new Notification("", {body: log.msg});
-				}
-				break;
-			default:
-				break;
-			}
-		};
-
-
+		this.ws.onopen = () => this.onOpen();
+		this.ws.onmessage = (msgEvent) => this.onReceiveMsg(msgEvent);
+		this.ws.onclose = () => this.onClose();
+		this.ws.onerror = () => Notify.error("チャットが切断されました。サーバーが落ちた可能性があります。")
 	}
+	private onClose() {
+		Notify.error("チャットが切断されました。サーバーが落ちた可能性があります");
+	}
+	private onOpen() {
+		this.sendElem.addEventListener("click", e => {
+			this.send();
+		});
+		this.inputElem.addEventListener("keypress", (e) => {
+			if (e.keyCode === 13 && !e.shiftKey) {
+				this.send();
+				e.preventDefault();
+			}
+		});
+	}
+
+	private onReceiveMsg(msgEvent: MessageEvent) {
+		const res = <WSRes>JSON.parse(msgEvent.data);
+		switch (res.type) {
+		case WSResType.initlog:
+			this.logs = <ChatLog[]> res.value;
+			this.logElem.innerHTML =  WebSocketChat.logsTmpl({logs: this.logs});
+			break;
+		case WSResType.log:
+			const log = <ChatLog>res.value;
+			this.logs.push(log);
+			if (this.logs.length > 10) this.logs.shift();
+			this.logElem.innerHTML =  WebSocketChat.logsTmpl({logs: this.logs});
+			if (this.tmpSendMsg !== log.msg) {
+				Notification.requestPermission();
+				new Notification("", {body: log.msg});
+			}
+			break;
+		case WSResType.infolog:
+			Notify.success(<string> res.value);
+			break;
+		default:
+			break;
+		}
+	}
+
 	private send() {
 		const value = this.inputElem.value;
 		if (value) {
@@ -91,9 +91,4 @@ export class WebSocketChat {
 			this.inputElem.value = "";
 		}
 	}
-	private render() {
-
-	}
-
-
 }

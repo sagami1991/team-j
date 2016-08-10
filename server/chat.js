@@ -1,12 +1,12 @@
 "use strict";
 var dateFormat = require('dateformat');
-var WSResType;
 (function (WSResType) {
     WSResType[WSResType["error"] = 0] = "error";
     WSResType[WSResType["initlog"] = 1] = "initlog";
     WSResType[WSResType["log"] = 2] = "log";
-})(WSResType || (WSResType = {}));
-;
+    WSResType[WSResType["infolog"] = 3] = "infolog";
+})(exports.WSResType || (exports.WSResType = {}));
+var WSResType = exports.WSResType;
 var Chat = (function () {
     function Chat(wss, collection) {
         this.wss = wss;
@@ -16,9 +16,29 @@ var Chat = (function () {
         var _this = this;
         this.wss.on('connection', function (ws) {
             _this.sendLog10(ws);
+            _this.onJoin(ws);
             ws.on('message', function (data, flags) { return _this.receiveMsg(ws, data, flags); });
-            ws.on("close", function (code) {
-            });
+            ws.on("close", function () { return _this.onClose(ws); });
+        });
+    };
+    Chat.prototype.onClose = function (ws) {
+        this.wss.clients.forEach(function (ws) {
+            // if (myWs !== ws) {
+            ws.send(JSON.stringify({
+                type: WSResType.infolog,
+                value: "誰かが切断しました"
+            }));
+            // }
+        });
+    };
+    Chat.prototype.onJoin = function (myWs) {
+        this.wss.clients.forEach(function (ws) {
+            if (myWs !== ws) {
+                ws.send(JSON.stringify({
+                    type: WSResType.infolog,
+                    value: "誰かがアクセスしました"
+                }));
+            }
         });
     };
     /**
