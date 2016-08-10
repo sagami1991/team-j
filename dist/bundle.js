@@ -1032,17 +1032,26 @@
 	    }
 	    WebSocketChat.prototype.init = function () {
 	        var _this = this;
-	        this.ws = new WebSocket(location.origin.replace(/^http/, 'ws'));
+	        this.ws = new WebSocket(WebSocketChat.URL);
 	        this.inputElem = document.querySelector("#chat");
 	        this.logElem = document.querySelector(".chat-logs");
 	        this.sendElem = document.querySelector(".chat-send");
 	        this.ws.onopen = function () { return _this.onOpen(); };
 	        this.ws.onmessage = function (msgEvent) { return _this.onReceiveMsg(msgEvent); };
 	        this.ws.onclose = function () { return _this.onClose(); };
+	        this.pingInterval();
+	    };
+	    /** herokuは無通信時、55秒で遮断されるため、50秒ごとに無駄な通信を行う */
+	    WebSocketChat.prototype.pingInterval = function () {
+	        var _this = this;
+	        this.pingTimer = window.setInterval(function () {
+	            _this.ws.send(new Uint8Array(1));
+	        }, 50000);
 	    };
 	    WebSocketChat.prototype.onClose = function () {
 	        util_1.Notify.error("チャットが切断されました。サーバーが落ちた可能性があります");
 	        this.inputElem.disabled = true;
+	        window.clearInterval(this.pingTimer);
 	    };
 	    WebSocketChat.prototype.onOpen = function () {
 	        var _this = this;
@@ -1089,6 +1098,7 @@
 	            this.inputElem.value = "";
 	        }
 	    };
+	    WebSocketChat.URL = location.origin.replace(/^http/, 'ws');
 	    WebSocketChat.logsTmpl = Handlebars.compile("\n\t\t{{#logs}}\n\t\t<li class=\"chat-log\">\n\t\t\t<div class=\"chat-date\">{{date}}</div>\n\t\t\t<div class=\"chat-msg\">{{msg}}</div>\n\t\t</li>\n\t\t{{/logs}}\n\t");
 	    return WebSocketChat;
 	}());
