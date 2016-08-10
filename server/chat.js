@@ -68,7 +68,7 @@ var Chat = (function () {
         });
     };
     Chat.prototype.validateMsg = function (data, isBinary) {
-        if (!isBinary && data.length > 20) {
+        if (!isBinary && data.length > 80) {
             throw new Error();
         }
         if (isBinary) {
