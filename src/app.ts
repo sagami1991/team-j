@@ -1,3 +1,7 @@
+/// <reference path="./custom-typings.d.ts" />
+
+require("expose?humane!humane-js");
+require("!style!css!humane-js/themes/libnotify.css");
 require("./main.scss");
 /** templateエンジン */
 import * as Handlebars from "handlebars";
@@ -71,6 +75,13 @@ class MainComponent {
 		}
 	];
 
+	private bosyuYoukou: string[] = [
+		"プログラマー（未経験者歓迎）",
+		"デザイナー（未経験者歓迎）",
+		"マーケティング・広報担当（未経験者歓迎）",
+		"営業担当（未経験者歓迎）"
+	];
+
 	constructor(canvas: GozzilaCanvas) {
 		this.canvas = canvas;
 	}
@@ -89,6 +100,7 @@ class MainComponent {
 			goals: this.goals,
 			members: this.members,
 			seikabutus: this.seikabutus,
+			bosyuYoukou: this.bosyuYoukou,
 			lastUpdated: LAST_UPDATED
 		});
 	}

@@ -1,12 +1,13 @@
-import {Server as WebSocketServer} from 'ws';
+/// <reference types="ws" />
+import {Server as WebSocketServer, WSWebSocket} from 'ws';
 import {Collection} from 'mongodb';
 const dateFormat = require('dateformat');
-
-enum WSResType  {
+export enum WSResType {
 	error,
 	initlog,
 	log,
-};
+	infolog
+}
 
 interface ChatLog {
 	msg: string;
@@ -24,17 +25,39 @@ export class Chat {
 
 	public init() {
 		this.wss.on('connection', (ws) => {
-			this.sendLog10(<any>ws);
-			ws.on('message', (data, flags) => this.receiveMsg(<any> ws, data, flags));
-			ws.on("close", (code) => {
-			});
+			this.sendLog10(ws);
+			this.onJoin(ws);
+			ws.on('message', (data, flags) => this.receiveMsg(ws, data, flags));
+			ws.on("close", () => this.onClose(ws));
+		});
+	}
+
+	private onClose(ws: WSWebSocket) {
+		this.wss.clients.forEach(ws => {
+			// if (myWs !== ws) {
+				ws.send(JSON.stringify({
+					type: WSResType.infolog,
+					value: "誰かが切断しました"
+				}));
+			// }
+		});
+	}
+
+	private onJoin(myWs: WSWebSocket) {
+		this.wss.clients.forEach(ws => {
+			if (myWs !== ws) {
+				ws.send(JSON.stringify({
+					type: WSResType.infolog,
+					value: "誰かがアクセスしました"
+				}));
+			}
 		});
 	}
 
 	/**
 	 * DBから10行分のログ送信
 	 */
-	private sendLog10(ws: WebSocket) {
+	private sendLog10(ws: WSWebSocket) {
 		this.collection.find().limit(10).sort({ $natural: -1 })
 		.toArray((err, arr) => {
 			if (err) console.log(err);
@@ -47,7 +70,7 @@ export class Chat {
 	/**
 	 * メッセージ受け取ったら、ＤＢに格納＆全員に送信
 	 */
-	private receiveMsg(ws: WebSocket, data: any, flags: {binary: boolean}) {
+	private receiveMsg(ws: WSWebSocket, data: any, flags: {binary: boolean}) {
 		try {
 			this.validateMsg(data, flags.binary);
 		} catch (error) {
