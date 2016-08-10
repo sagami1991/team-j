@@ -16,7 +16,7 @@ interface NotificationOptions {
 	icon?: string;
 }
 //これ型定義ファイルどこにあるの？
-declare class Notification{
+declare class Notification {
 	constructor(title: string, options?: NotificationOptions);
 	static requestPermission(callback?: (permission: string) => void): void;
 }
@@ -40,27 +40,27 @@ class MainComponent {
 	private abouts: string[] = [
 		"なんでも実況Ｊから集結されたプログラマー集団",
 		"グレーな案件、ハードな仕事など、どんな依頼も引き受け軽々とこなす"
-	]
+	];
 
 	private goals: string[] = [
 		"知名度を上げるアプリの作成",
 		"天才プログラマー〝tehu〟を超える",
 		"ネット上でプロフェッショナル集団として認知される",
 		"依頼された仕事をこなせるようになる"
-	]
+	];
 
 	private members: Member[] = [
 		{
-			name:"yasuaki（リーダー）",
+			name: "yasuaki（リーダー）",
 			image: "yasuaki.png"
 		}, {
-			name:"うんち",
+			name: "うんち",
 			image: "unti.png"
 		}, {
-			name:"やまだ",
+			name: "やまだ",
 			image: "user.png"
 		}
-	]
+	];
 
 	private seikabutus: Seikabutu[] = [
 		{
@@ -69,7 +69,7 @@ class MainComponent {
 			image: "word_crowd.png",
 			url: "http://jcloud.wktk.so/"
 		}
-	]
+	];
 
 	constructor(canvas: GozzilaCanvas) {
 		this.canvas = canvas;
@@ -91,7 +91,6 @@ class MainComponent {
 			seikabutus: this.seikabutus,
 			lastUpdated: LAST_UPDATED
 		});
-		
 	}
 }
 

@@ -7,7 +7,7 @@ interface NotificationOptions {
 	icon?: string;
 }
 //これ型定義ファイルどこにある？
-declare class Notification{
+declare class Notification {
 	constructor(title: string, options?: NotificationOptions);
 	static requestPermission(callback?: (permission: string) => void): void;
 }
@@ -16,7 +16,7 @@ interface ChatLog {
 	msg: string;
 	date: string;
 }
-enum WSResType{
+enum WSResType {
 	error,
 	initlog,
 	log
@@ -49,16 +49,16 @@ export class WebSocketChat {
 		this.logElem = <HTMLElement> document.querySelector(".chat-logs");
 		this.sendElem = <HTMLElement> document.querySelector(".chat-send");
 		this.ws.onopen = () => {
-			this.sendElem.addEventListener("click", (e)=>{
+			this.sendElem.addEventListener("click", e => {
 				this.send();
-			})
-			this.inputElem.addEventListener("keypress", (e)=> {
-				if(e.keyCode == 13 && !e.shiftKey){
+			});
+			this.inputElem.addEventListener("keypress", (e) => {
+				if (e.keyCode === 13 && !e.shiftKey) {
 					this.send();
 					e.preventDefault();
 				}
 			});
-		}
+		};
 		this.ws.onmessage = (msgEvent) => {
 			const res = <WSRes>JSON.parse(msgEvent.data);
 			switch (res.type) {
@@ -69,22 +69,22 @@ export class WebSocketChat {
 			case WSResType.log:
 				const log = <ChatLog>res.value;
 				this.logs.push(log);
-				if(this.logs.length > 10) this.logs.shift();
+				if (this.logs.length > 10) this.logs.shift();
 				this.logElem.innerHTML =  WebSocketChat.logsTmpl({logs: this.logs});
-				if(this.tmpSendMsg !== log.msg){
+				if (this.tmpSendMsg !== log.msg) {
 					new Notification("", {body: log.msg});
 				}
 				break;
 			default:
 				break;
 			}
-		}
+		};
 
 
 	}
 	private send() {
 		const value = this.inputElem.value;
-		if(value){
+		if (value) {
 			this.tmpSendMsg = value;
 			this.ws.send(value);
 			this.inputElem.value = "";
