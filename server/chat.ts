@@ -82,5 +82,6 @@ export class Chat {
 		if (isBinary) {
 			return false;
 		}
+		return true;
 	}
 }
