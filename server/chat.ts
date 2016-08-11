@@ -1,12 +1,14 @@
 /// <reference types="ws" />
-import {Server as WebSocketServer, WSWebSocket} from 'ws';
+import * as WebSocket from 'ws';
 import {Collection} from 'mongodb';
 const dateFormat = require('dateformat');
+
+/** 送信する情報のタイプ */
 export enum WSResType {
-	error,
-	initlog,
-	log,
-	infolog
+	error, // エラーメッセージ
+	initlog,  //最初に送るログ配列
+	log,  // 通常ログ
+	infolog  // 情報ログ
 }
 
 interface ChatLog {
@@ -15,9 +17,9 @@ interface ChatLog {
 }
 
 export class Chat {
-	private wss: WebSocketServer;
+	private wss: WebSocket.Server;
 	private collection: Collection;
-	constructor(wss: WebSocketServer,
+	constructor(wss: WebSocket.Server,
 				collection: Collection) {
 		this.wss = wss;
 		this.collection = collection;
@@ -31,7 +33,8 @@ export class Chat {
 			ws.on("close", () => this.sendInfoMsgForAll(ws, "誰かが切断しました"));
 		});
 	}
-	private sendInfoMsgForAll(myWs: WSWebSocket, msg: string) {
+	/** 通知メッセージを全員に送る */
+	private sendInfoMsgForAll(myWs: WebSocket, msg: string) {
 		this.wss.clients.forEach(ws => {
 			if (myWs !== ws) {
 				ws.send(JSON.stringify({
@@ -45,7 +48,7 @@ export class Chat {
 	/**
 	 * DBから10行分のログ取り出して送信
 	 */
-	private sendLog10(ws: WSWebSocket) {
+	private sendLog10(ws: WebSocket) {
 		this.collection.find().limit(10).sort({ $natural: -1 })
 		.toArray((err, arr) => {
 			if (err) console.log(err);
@@ -58,7 +61,7 @@ export class Chat {
 	/**
 	 * メッセージ受け取ったら、ＤＢに格納＆全員に送信
 	 */
-	private receiveMsg(ws: WSWebSocket, data: any, flags: {binary: boolean}) {
+	private receiveMsg(ws: WebSocket, data: any, flags: {binary: boolean}) {
 		if (!this.validateMsg(data, flags.binary)) {
 			return;
 		}
@@ -75,6 +78,7 @@ export class Chat {
 		});
 	}
 
+	/** バイナリか80文字以上ははじく */
 	private validateMsg(data: string, isBinary: boolean, ) {
 		if (!isBinary && data.length > 80) {
 			return false;

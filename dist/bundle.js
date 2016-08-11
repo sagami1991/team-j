@@ -63,7 +63,7 @@
 	__webpack_require__(12);
 	__webpack_require__(95);
 	var MainComponent = (function () {
-	    function MainComponent(canvas) {
+	    function MainComponent(canvas, chat) {
 	        this.abouts = [
 	            "なんでも実況Ｊから集結されたプログラマー集団",
 	            "グレーな案件、ハードな仕事など、どんな依頼も引き受け軽々とこなす"
@@ -101,13 +101,14 @@
 	            "営業担当（未経験者歓迎）"
 	        ];
 	        this.canvas = canvas;
+	        this.chat = chat;
 	    }
 	    MainComponent.prototype.init = function () {
 	        this.el = document.querySelector("my-app");
-	        this.canvas.init();
 	        Handlebars.registerHelper("addOne", function (index) { return index + 1; });
 	        this.render();
-	        new chat_ts_1.WebSocketChat().init();
+	        this.canvas.init();
+	        this.chat.init();
 	    };
 	    MainComponent.prototype.render = function () {
 	        this.el.innerHTML = Handlebars.compile(__webpack_require__(106))({
@@ -121,7 +122,7 @@
 	    };
 	    return MainComponent;
 	}());
-	new MainComponent(new canvas_1.GozzilaCanvas()).init();
+	new MainComponent(new canvas_1.GozzilaCanvas(), new chat_ts_1.WebSocketChat()).init();
 
 
 /***/ },
