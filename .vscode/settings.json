@@ -3,8 +3,7 @@
 	"files.exclude": {
 		"dist": true,
 		"node_modules": true,
-		"**/*.js": { "when": "$(basename).ts" },
-		// "**/*.css": { "when": "$(basename).scss" }
+		"**/*.js": { "when": "$(basename).ts" }
 	},
 	"typescript.tsdk": "node_modules\\typescript\\lib"
 }
