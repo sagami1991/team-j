@@ -34,7 +34,7 @@ var Chat = (function () {
         });
     };
     /**
-     * DBから10行分のログ取り出して送信
+     * DBから新しい順に10行分のログ取り出して送信
      */
     Chat.prototype.sendLog10 = function (ws) {
         this.collection.find().limit(10).sort({ $natural: -1 })
@@ -43,7 +43,7 @@ var Chat = (function () {
                 console.log(err);
             ws.send(JSON.stringify({
                 type: WSResType.initlog,
-                value: arr && arr.length ? arr.reverse() : []
+                value: arr ? arr.reverse() : []
             }));
         });
     };

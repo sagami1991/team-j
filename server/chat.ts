@@ -1,4 +1,3 @@
-/// <reference types="ws" />
 import * as WebSocket from 'ws';
 import {Collection} from 'mongodb';
 const dateFormat = require('dateformat');
@@ -46,7 +45,7 @@ export class Chat {
 	}
 
 	/**
-	 * DBから10行分のログ取り出して送信
+	 * DBから新しい順に10行分のログ取り出して送信
 	 */
 	private sendLog10(ws: WebSocket) {
 		this.collection.find().limit(10).sort({ $natural: -1 })
@@ -54,7 +53,7 @@ export class Chat {
 			if (err) console.log(err);
 			ws.send(JSON.stringify({
 				type: WSResType.initlog,
-				value: arr && arr.length ? arr.reverse() : []
+				value: arr ? arr.reverse() : []
 			}));
 		});
 	}
