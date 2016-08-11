@@ -1,10 +1,11 @@
 "use strict";
 var dateFormat = require('dateformat');
+/** 送信する情報のタイプ */
 (function (WSResType) {
     WSResType[WSResType["error"] = 0] = "error";
     WSResType[WSResType["initlog"] = 1] = "initlog";
     WSResType[WSResType["log"] = 2] = "log";
-    WSResType[WSResType["infolog"] = 3] = "infolog";
+    WSResType[WSResType["infolog"] = 3] = "infolog"; // 情報ログ
 })(exports.WSResType || (exports.WSResType = {}));
 var WSResType = exports.WSResType;
 var Chat = (function () {
@@ -21,6 +22,7 @@ var Chat = (function () {
             ws.on("close", function () { return _this.sendInfoMsgForAll(ws, "誰かが切断しました"); });
         });
     };
+    /** 通知メッセージを全員に送る */
     Chat.prototype.sendInfoMsgForAll = function (myWs, msg) {
         this.wss.clients.forEach(function (ws) {
             if (myWs !== ws) {
@@ -64,6 +66,7 @@ var Chat = (function () {
             }));
         });
     };
+    /** バイナリか80文字以上ははじく */
     Chat.prototype.validateMsg = function (data, isBinary) {
         if (!isBinary && data.length > 80) {
             return false;

@@ -40,7 +40,7 @@ interface Seikabutu {
 class MainComponent {
 	private el: Element;
 	private canvas: GozzilaCanvas;
-
+	private chat: WebSocketChat;
 	private abouts: string[] = [
 		"なんでも実況Ｊから集結されたプログラマー集団",
 		"グレーな案件、ハードな仕事など、どんな依頼も引き受け軽々とこなす"
@@ -82,16 +82,18 @@ class MainComponent {
 		"営業担当（未経験者歓迎）"
 	];
 
-	constructor(canvas: GozzilaCanvas) {
+	constructor(canvas: GozzilaCanvas,
+				chat: WebSocketChat) {
 		this.canvas = canvas;
+		this.chat = chat;
 	}
 
 	public init() {
 		this.el = document.querySelector("my-app");
-		this.canvas.init();
 		Handlebars.registerHelper("addOne",  (index: number) => index + 1);
 		this.render();
-		new WebSocketChat().init();
+		this.canvas.init();
+		this.chat.init();
 	}
 
 	private render() {
@@ -106,4 +108,4 @@ class MainComponent {
 	}
 }
 
-new MainComponent(new GozzilaCanvas()).init();
+new MainComponent(new GozzilaCanvas(), new WebSocketChat()).init();
