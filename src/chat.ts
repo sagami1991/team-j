@@ -55,6 +55,7 @@ export class WebSocketChat {
 	private onClose() {
 		Notify.error("チャットが切断されました。サーバーが落ちた可能性があります");
 		this.inputElem.disabled = true;
+		this.inputElem.value = "チャットが切断されました。";
 		window.clearInterval(this.pingTimer);
 	}
 	private onOpen() {
